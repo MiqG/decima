@@ -35,7 +35,8 @@ def write_hdf5(file, ad, pad=0, genome="hg38"):
         f.create_dataset("genes", shape=arr.shape, data=arr)
 
         # Labels
-        arr = np.expand_dims(ad.X.T.astype(np.float32), 2)
+        X = ad.X.toarray() if hasattr(ad.X, "toarray") else np.asarray(ad.X)
+        arr = np.expand_dims(X.T.astype(np.float32), 2)
         print(f"Writing labels array of shape: {arr.shape}")
         f.create_dataset("labels", shape=arr.shape, dtype=np.float32, data=arr)
 
