@@ -313,12 +313,14 @@ class LightningModel(pl.LightningModule):
         logger = self.parse_logger()
 
         # Set up trainer
+        devices = make_list(self.train_params["devices"])
         trainer = pl.Trainer(
             max_epochs=self.train_params["max_epochs"],
             accelerator="gpu",
-            devices=make_list(self.train_params["devices"]),
+            devices=devices,
+            strategy="ddp" if len(devices) > 1 else "auto",
             logger=logger,
-            callbacks=[ModelCheckpoint(monitor="val_loss", mode="min", save_top_k=self.train_params["save_top_k"])],
+            callbacks=[ModelCheckpoint(monitor="val_loss", mode="min", save_top_k=self.train_params["save_top_k"], save_last=True)],
             default_root_dir=self.train_params["save_dir"],
             accumulate_grad_batches=self.train_params["accumulate_grad_batches"],
             gradient_clip_val=self.train_params["clip"],
