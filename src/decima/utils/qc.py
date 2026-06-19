@@ -41,6 +41,8 @@ class QCLogger:
             gene (str): Gene to log
             threshold (float, optional): Threshold for logging. Defaults to 0.5.
         """
+        if "pearson" not in self.result.gene_metadata.columns:
+            return
         gene_metadata = self.result.get_gene_metadata(gene)
         if gene_metadata.pearson < threshold:
             self.log(

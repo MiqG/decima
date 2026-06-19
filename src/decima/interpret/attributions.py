@@ -164,7 +164,7 @@ def predict_save_attributions(
     attributer = DecimaAttributer(model, tasks, off_tasks, method, transform)
 
     with QCLogger(str(output_prefix) + ".warnings.qc.log", metadata_anndata=result) as qc:
-        if result.ground_truth is not None:
+        if result.ground_truth is not None and "preds" in result.anndata.layers:
             qc.log_correlation(tasks, off_tasks, plot=True)
 
         if (genes is not None) and (seqs is not None):
@@ -356,6 +356,7 @@ def predict_attributions_seqlet_calling(
     pattern_type: str = "both",
     meme_motif_db: str = "hocomoco_v13",
     genome: str = "hg38",
+    bigwig: bool = True,
 ):
     """Generate and save attribution analysis results for a gene.
     This function performs attribution analysis for a given gene and cell types, saving
@@ -413,6 +414,7 @@ def predict_attributions_seqlet_calling(
         top_n_markers=top_n_markers,
         device=device,
         genome=genome,
+        bigwig=bigwig,
     )
 
     custom_genome = False

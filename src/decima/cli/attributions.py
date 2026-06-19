@@ -245,6 +245,9 @@ def cli_attributions_predict(
 @click.option(
     "--genome", type=str, show_default=True, default="hg38", help="Genome name or path to the genome fasta file."
 )
+@click.option(
+    "--no-bigwig", "disable_bigwig", is_flag=True, default=False, help="Disable bigwig output file generation."
+)
 def cli_attributions(
     output_prefix,
     genes,
@@ -267,6 +270,7 @@ def cli_attributions(
     meme_motif_db,
     device,
     genome,
+    disable_bigwig,
 ):
     """Generate and save attribution analysis results for a gene or a set of sequences and perform seqlet calling on the attributions.
 
@@ -312,6 +316,7 @@ def cli_attributions(
         pattern_type=pattern_type,
         meme_motif_db=meme_motif_db,
         genome=genome,
+        bigwig=not disable_bigwig,
     )
 
 

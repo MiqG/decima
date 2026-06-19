@@ -958,8 +958,8 @@ class VariantDataset(Dataset):
             "VariantDataset("
             f"{self.variants.shape[0]} variants "
             f"from {list(self.variants.chrom.unique())} "
-            f"between {self.variants.start.min()} "
-            f"and {self.variants.end.max()} bp from TSS"
+            f"between {self.variants.tss_dist.abs().min()} "
+            f"and {self.variants.tss_dist.abs().max()} bp from TSS"
             ")"
         )
 

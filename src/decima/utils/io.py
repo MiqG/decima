@@ -332,10 +332,10 @@ class AttributionWriter:
                 start = 0
                 end = DECIMA_CONTEXT_SIZE
             else:
-                gene_meta = self.result.get_gene_metadata(self.genes[idx])
-                chrom = gene_meta.chrom
-                start = gene_meta.start
-                end = gene_meta.end
+                gene_var = self.result.gene_metadata.loc[self.genes[idx]]
+                chrom = gene_var["chrom"]
+                start = int(gene_var["start"])
+                end = int(gene_var["end"])
 
             if self.correct_grad_bigwig:
                 attrs = attrs - attrs.mean(axis=0, keepdims=True)
